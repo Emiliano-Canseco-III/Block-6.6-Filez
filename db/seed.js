@@ -9,22 +9,22 @@ await db.end();
 console.log("🌱 Database seeded.");
 
 async function seed() {
-  for (let i = 1; i <= 3; i++) {
-    await createFolder("Folder " + i);
-  }
+  // This will loop through each folder ID (1, 2, and 3)
+  for (let f = 1; f <= 3; f++) {
+    const folder = await createFolder("Folder " + f);
 
-  for (let i = 1; i <= 15; i++) {
-    const folderId = 1 + Math.floor(Math.random() * 3);
-    const size = 1 + Math.floor(Math.random() * (99 - 49 + 1)) + 49;
+    // Creates exactly 5 files for the current folder
+    for (let i = 1; i <= 5; i++) {
+      const size = 1 + Math.floor(Math.random() * 51) + 50;
 
-    try {
-      await createFile("File " + i, size, folderId);
-    } catch (err) {
-      console.error(
-        `Failed to seed Files ${i} (Folder ID: ${folderId}):
-        `,
-        err.message
-      );
+      try {
+        await createFile(`File_${f}_${i}`, size, folder.id);
+      } catch (err) {
+        console.error(
+          `Failed to seed File: ${i} (Folder ID: ${folder.name})`,
+          err.message
+        );
+      }
     }
   }
 }
