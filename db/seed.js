@@ -13,9 +13,9 @@ async function seed() {
     await createFolder("Folder " + i);
   }
 
-  for (let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 15; i++) {
     const folderId = 1 + Math.floor(Math.random() * 3);
-    const size = 1 + Math.floor(Math.random() * (100 - 50 + 1)) + 50;
+    const size = 1 + Math.floor(Math.random() * (99 - 49 + 1)) + 49;
 
     try {
       await createFile("File " + i, size, folderId);
