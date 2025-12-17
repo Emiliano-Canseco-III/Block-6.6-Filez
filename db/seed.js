@@ -1,7 +1,7 @@
 import db from "#db/client";
 
-import { createFolder } from "#db/queries/files";
-import { createFile } from "#db/queries/folders";
+import { createFolder } from "#db/queries/folders";
+import { createFile } from "#db/queries/files";
 
 await db.connect();
 await seed();
