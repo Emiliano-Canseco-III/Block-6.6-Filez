@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS folders;
 DROP TABLE IF EXISTS files;
+DROP TABLE IF EXISTS folders;
 
 CREATE TABLE folders (
     id      serial PRIMARY KEY,
