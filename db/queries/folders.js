@@ -25,9 +25,11 @@ export async function getFolders() {
 
 export async function getFolderById(id) {
   const sql = `
-    SELECT *
+    SELECT folders.*, json_agg(files.*) AS files
     FROM folders
-    WHERE id = $1
+    LEFT JOIN files ON folders.id = files.folder_id
+    WHERE folders.id = $1
+    GROUP BY folders.id
     `;
   const {
     rows: [folder],
