@@ -1,11 +1,12 @@
 import express from "express";
 const router = express.Router();
 
-import { getFolders, getFoldersById } from "#db/queries/folders";
+import { getFolders, getFolderById } from "#db/queries/folders";
+import { createFile } from "#db/queries/files";
 
 router.get("/", async (req, res) => {
   const folders = await getFolders();
-  res.send(tracks);
+  res.send(folders);
 });
 
 router.param("id", async (req, res, next, id) => {
@@ -13,7 +14,7 @@ router.param("id", async (req, res, next, id) => {
     return res.status(400).send("ID must be a number.");
   }
 
-  const folder = await getFoldersById(id);
+  const folder = await getFolderById(id);
   if (!folder) {
     return res.status(404).send("Folder does not exist.");
   }
@@ -23,6 +24,24 @@ router.param("id", async (req, res, next, id) => {
 
 router.get("/:id", (req, res) => {
   res.send(req.folder);
+});
+
+router.post("/:id/files", async (req, res, next) => {
+  try {
+    if (!req.body) {
+      return res.status(400).send("Request body is required.");
+    }
+
+    const { name, size } = req.body;
+    if (!name || !size) {
+      return res.status(400).send("Name and size are required.");
+    }
+
+    const result = await createFile(name, size, req.folder.id);
+    res.status(201).send(result);
+  } catch (error) {
+    next(error);
+  }
 });
 
 export default router;
